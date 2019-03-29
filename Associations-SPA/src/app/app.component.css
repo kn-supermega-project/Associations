@@ -1,0 +1,19 @@
+.tab-content, .active.tab-pane {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+.total-container {
+    display: grid;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+}
+.total-container .ngx-charts-outer, .ngx-charts{
+    position: absolute;
+    height: 100%!important;
+    width: 100%!important;
+}
