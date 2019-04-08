@@ -10,12 +10,15 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { AppComponent } from './app.component';
 import { TotalGraphComponent } from './total-graph/total-graph.component';
 import { WordsService } from './_services/words.service';
+import { NavComponent } from './nav/nav.component';
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
+
 
 
 @NgModule({
    declarations: [
       AppComponent,
-      TotalGraphComponent,
+      NavComponent,
       TotalGraphComponent
    ],
    imports: [
@@ -26,7 +29,8 @@ import { WordsService } from './_services/words.service';
       HttpClientModule,
       BrowserAnimationsModule,
       BrowserModule,
-      TabsModule.forRoot()
+      TabsModule.forRoot(),
+      AngularFontAwesomeModule
    ],
    providers: [
       WordsService

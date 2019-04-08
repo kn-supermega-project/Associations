@@ -16,17 +16,20 @@ export class TotalGraphComponent implements OnInit {
   hierarchialGraph = {nodes: [], links: [] };
   public curve: any = shape.curveBundle.beta(1);
   words: Words[];
+  IsSideBarActive = false;
 
   constructor(private wordsService: WordsService) {}
 
   ngOnInit() {
-    this.loadWordsRels();
+    this.showGraph();
   }
 
-  loadWordsRels() {
+  showGraph() {
       this.wordsService.getAll()
        .subscribe((data: Words[]) => {
+         if (data) {
           this.words = data;
+         }
           let i = 1;
           this.words.forEach(word => {
             this.hierarchialGraph.nodes.push(
@@ -48,8 +51,15 @@ export class TotalGraphComponent implements OnInit {
        });
   }
 
-  // not good idea
+  showSideBar() {
+    if (this.IsSideBarActive) {
+      this.IsSideBarActive = false;
+    } else {
+      this.IsSideBarActive = true;
+    }
+  }
 
+  // not good idea
   // tslint:disable-next-line:use-life-cycle-interface
     ngAfterViewInit(): void {
       setTimeout(_ => {
