@@ -1,0 +1,12 @@
+.table {
+    width: 60%;
+    margin: auto;
+}
+
+.table thead th {
+    width: 33%
+}
+
+.right-column {
+    padding-left: 100px;
+}

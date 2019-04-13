@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { WordsService } from '../_services/words.service';
+import { Words } from '../_interfaces/Words';
 
 @Component({
   selector: 'app-nav',
@@ -6,10 +8,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
+  selected: string;
+  words: string[] = [];
 
-  constructor() { }
+  constructor(private wordsService: WordsService) { }
 
   ngOnInit() {
+    this.loadWords();
+  }
+
+  loadWords() {
+    this.wordsService.getAll().subscribe((data: Words[]) => {
+      if (data) {
+       this.words = data.map(d => d.word);
+      }
+    });
   }
 
 }
