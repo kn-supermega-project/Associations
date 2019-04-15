@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { WordsService } from 'src/app/_services/words.service';
 import { WordsToList } from 'src/app/_interfaces/WordsToList';
+import { PaginationQuery } from 'src/app/_interfaces/PaginationQuery';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-words-list',
@@ -10,18 +12,46 @@ import { WordsToList } from 'src/app/_interfaces/WordsToList';
 export class WordsListComponent implements OnInit {
 
   wordsToList: WordsToList[];
+  pagination: PaginationQuery;
+  totalRecords: number[];
 
-  constructor(private wordsService: WordsService) { }
+
+  constructor(private wordsService: WordsService,
+    private router: Router) {
+    this.pagination = this.getDefaultPaginationParam();
+    this.totalRecords = [];
+   }
 
   ngOnInit() {
     this.loadWords();
   }
 
+  getDefaultPaginationParam(): PaginationQuery {
+    return {
+      pageSize: 10,
+      pageNumber: 1
+    };
+  }
+  paginate(p: number) {
+    this.pagination = {
+      pageNumber: p,
+      pageSize: 10
+    };
+
+    this.loadWords();
+  }
+
   loadWords() {
-    this.wordsService.getMainWords().subscribe((data: WordsToList[]) => {
-      if (data) {
-        this.wordsToList = data;
-      }
-    });
+    this.wordsService.getMainWords(this.pagination.pageSize, this.pagination.pageNumber)
+      .subscribe((response) => {
+        this.wordsToList = response.body;
+        const totalPages = JSON.parse(response.headers.get('X-Pagination')).TotalPages;
+        if (this.totalRecords = []) {
+          this.totalRecords = Array(totalPages).fill(1).map((x, i) => i + 1);
+        }
+      });
+  }
+  details(id: number) {
+    this.router.navigate(['words/', id]);
   }
 }

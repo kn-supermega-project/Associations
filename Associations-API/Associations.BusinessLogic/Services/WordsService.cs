@@ -20,6 +20,11 @@ namespace Associations.BusinessLogic.Services
         private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;
 
+        public int TotalRecords
+        {
+            get { return _uow.WordsRepository.TotalRecords; }
+        }
+
         public WordsService(IUnitOfWork uow, IMapper mapper)
         {
             _uow = uow;
@@ -35,16 +40,25 @@ namespace Associations.BusinessLogic.Services
             return dtos;
 
         }
-        public async Task<IEnumerable<WordsToListDTO>> GetMainEntitiesAsync()
+        public async Task<WordsToListDTO> GetEntityByIdAsync(int id)
+        {
+            var entity = await _uow.WordsRepository.GetEntityAsync(id);
+
+            var dtos = _mapper.Map<Words, WordsToListDTO>(entity);
+
+            return dtos;
+
+        }
+        public async Task<IEnumerable<WordsToListDTO>> GetMainEntitiesAsync(PaginationUrlQuery paginationUrlQuery = null)
         {
             var entities = await _uow.WordsRepository.GetRangeAsync(
-                filter: f => f.Type == 1 // 1 it's type of main words
+                filter: f => f.Type == 1, // 1 it's type of main words
+                paginationUrlQuery: paginationUrlQuery
                 );
 
             var dtos = _mapper.Map<List<Words>, List<WordsToListDTO>>(entities);
 
             return dtos;
-
         }
 
         public Task<IEnumerable<WordsDTO>> GetRangeOfEntitiesAsync(PaginationUrlQuery urlQuery = null)

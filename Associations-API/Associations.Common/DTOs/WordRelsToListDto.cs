@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Associations.DataAccess.Entity
+namespace Associations.Common.DTOs
 {
-    public class WordRels : Entity<int>
+    public class WordRelsToListDTO
     {
-        public override int Id { get; set; }
+        public int Id { get; set; }
         public int WordId { get; set; }
         public int WordRelId { get; set; }
         public int MalePoints { get; set; }
@@ -15,7 +15,6 @@ namespace Associations.DataAccess.Entity
         public float MalePercents { get; set; }
         public float FemalePercents { get; set; }
         public float TotalPercents { get; set; }
-        public Words word { get; set; }
-        public Words RelWord{ get; set; }
+        public WordsToListDTO RelWord { get; set; }
     }
 }

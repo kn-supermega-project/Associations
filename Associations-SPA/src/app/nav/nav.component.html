@@ -7,10 +7,10 @@
   <div class="collapse navbar-collapse" id="navbarColor03">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Graphs <span class="sr-only">(current)</span></a>
+        <a class="nav-link" (click)="goToGraph()">Graphs <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Words</a>
+        <a class="nav-link" (click)="goToWords()">Words</a>
       </li>
     </ul>
       <input [(ngModel)]="selected"

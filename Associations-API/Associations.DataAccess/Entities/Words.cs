@@ -10,5 +10,6 @@ namespace Associations.DataAccess.Entity
         public string Word { get; set; }
         public int Type { get; set; }
         public IList<WordRels> Rels { get; set; }
+        public IList<WordRels> RelsWord { get; set; }
     }
 }

@@ -44,6 +44,8 @@ namespace Associations.DataAccess.Migrations
 
                     b.HasIndex("WordId");
 
+                    b.HasIndex("WordRelId");
+
                     b.ToTable("WordRels");
                 });
 
@@ -67,7 +69,14 @@ namespace Associations.DataAccess.Migrations
                     b.HasOne("Associations.DataAccess.Entity.Words", "word")
                         .WithMany("Rels")
                         .HasForeignKey("WordId")
+                        .HasConstraintName("FK_MainWords_To_Words")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Associations.DataAccess.Entity.Words", "RelWord")
+                        .WithMany("RelsWord")
+                        .HasForeignKey("WordRelId")
+                        .HasConstraintName("FK_RelWords_TO_Words")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
         }

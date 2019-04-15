@@ -29,6 +29,7 @@ namespace Associations_API
         {
             services.AddDbContext<AssociationsDbContext>(options => options.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDb;Initial Catalog=AssociationsDB;Integrated Security=True;MultipleActiveResultSets=True;"));
 
+            // Add Cors policy
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
             {
                 builder.AllowAnyOrigin()
@@ -53,6 +54,7 @@ namespace Associations_API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseCors("CorsPolicy");
 
             if (env.IsDevelopment())
             {
@@ -62,8 +64,7 @@ namespace Associations_API
             {
                 app.UseHsts();
             }
-
-            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseMvc();

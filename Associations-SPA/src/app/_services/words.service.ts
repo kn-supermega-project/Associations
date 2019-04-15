@@ -2,37 +2,28 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { Words } from "../_interfaces/Words";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpResponse, HttpParams } from "@angular/common/http";
 import { environment } from "src/environments/environment";
 import { WordsToList } from "../_interfaces/WordsToList";
+import { ApiService } from "./api.service";
 
-@Injectable({
-  providedIn: "root"
-})
+@Injectable()
 export class WordsService {
-  baseUrl = environment.apiUrl;
+  private ctrlUrl = 'words';
 
-  constructor(private http: HttpClient) {}
+  constructor(private apiService: ApiService) {}
 
   getAll(): Observable<Words[]> {
-    return this.http.get<Words[]>(this.baseUrl + "words").pipe(
-      map((data: Words[]) => {
-        const wordsList = data;
-        return wordsList.map(function(word: Words) {
-          return word;
-        });
-      })
-    );
+    return this.apiService.get(`${this.ctrlUrl}`);
   }
-  getMainWords(): Observable<WordsToList[]> {
-    return this.http.get<WordsToList[]>(this.baseUrl + "words/main").pipe(
-      map((data: WordsToList[]) => {
-        const wordsList = data;
-        return wordsList.map(function(word: WordsToList) {
-          return word;
-        });
-      })
-    );
+  getById(id: number) {
+    return this.apiService.getById(`${this.ctrlUrl}/`, id)
+  }
+  getMainWords(pageSize: number, pageNumber: number): Observable<HttpResponse<WordsToList[]>> {
+    const params = new HttpParams()
+    .set('pageSize', pageSize.toString())
+    .set('pageNumber', pageNumber.toString());
+  return this.apiService.getFullResponse(`${this.ctrlUrl}/main`, params);
   }
 
 }

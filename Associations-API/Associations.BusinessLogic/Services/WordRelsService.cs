@@ -1,9 +1,11 @@
 ﻿using Associations.BusinessLogic.Interfaces;
 using Associations.Common.DTOs;
+using Associations.Common.Extensions;
 using Associations.Common.UrlQueries;
 using Associations.DataAccess.Entity;
 using Associations.DataAccess.Interfaces;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,6 +20,10 @@ namespace Associations.BusinessLogic.Services
     {
         private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;
+        public int TotalRecords
+        {
+            get { return _uow.WordRelsRepository.TotalRecords; }
+        }
 
         public WordRelsService(IUnitOfWork uow, IMapper mapper)
         {
@@ -34,19 +40,23 @@ namespace Associations.BusinessLogic.Services
             return dtos;
         }
 
-        public async Task<IEnumerable<WordRelsDTO>> GetMainEntitiesAsync()
+        public async Task<List<WordRelsToListDTO>> GetEntityByMainWordIdAsync(int id, [FromQuery]PaginationUrlQuery paginationUrlQuery = null)
         {
-            Expression<Func<Words, bool>> filter = e => true;
-            var entities = await _uow.WordRelsRepository.GetRangeAsync(
-                 include: r => r.Include(o => o.word),
-                 filter: f => f.WordId == f.word.Id);
+            var entity = await _uow.WordRelsRepository.GetRangeAsync(
+                 include: r => r.Include(e => e.RelWord),
+                 filter: r => r.WordId == id,
+                 paginationUrlQuery: paginationUrlQuery);
 
+            if (entity == null) return null;
 
-            var dtos = _mapper.Map<List<WordRels>, List<WordRelsDTO>>(entities);
-            return dtos;
+            var dto = _mapper.Map<List<WordRels>, List<WordRelsToListDTO>>(entity);
+
+            return dto;
         }
 
-        public Task<IEnumerable<WordRelsDTO>> GetRangeOfEntitiesAsync(PaginationUrlQuery urlQuery = null)
+
+
+        Task<WordRelsDTO> IWordRelsService.GetRangeOfEntitiesAsync(PaginationUrlQuery urlQuery)
         {
             throw new NotImplementedException();
         }

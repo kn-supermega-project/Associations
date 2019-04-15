@@ -10,7 +10,14 @@
     <tr class="table-light" *ngFor="let word of wordsToList">
       <td>{{word.id}}</td>
       <th scope="row">{{word.word}}</th>
-      <td class="right-column"><button class="btn btn-secondary">See details</button></td>
+      <td class="right-column"><button class="btn btn-secondary"(click)="details(word.id)">See details</button></td>
     </tr>
   </tbody>
 </table> 
+<div>
+  <ul class="pagination pagination-sm" >
+    <li class="page-item active"*ngFor="let t of totalRecords">
+      <a class="page-link" (click)="paginate(t)">{{t}}</a>
+    </li>
+  </ul>
+</div>

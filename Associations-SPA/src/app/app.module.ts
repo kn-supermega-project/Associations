@@ -16,7 +16,9 @@ import { NavComponent } from './nav/nav.component';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { WordsListComponent } from './words/words-list/words-list.component';
 import { WordsDetailsComponent } from './words/words-details/words-details.component';
-
+import { ApiService } from './_services/api.service';
+import { RouterModule } from '@angular/router';
+import { appRoutes } from './routes';
 
 
 @NgModule({
@@ -38,9 +40,11 @@ import { WordsDetailsComponent } from './words/words-details/words-details.compo
       TabsModule.forRoot(),
       TypeaheadModule.forRoot(),
       AngularFontAwesomeModule,
-      FormsModule
+      FormsModule,
+      RouterModule.forRoot(appRoutes)
    ],
    providers: [
+      ApiService,
       WordsService
    ],
    bootstrap: [

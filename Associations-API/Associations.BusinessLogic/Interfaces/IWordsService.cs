@@ -11,7 +11,9 @@ namespace Associations.BusinessLogic.Interfaces
     public interface IWordsService
     {
         Task<IEnumerable<WordsDTO>> GetAllEntitiesAsync();
-        Task<IEnumerable<WordsToListDTO>> GetMainEntitiesAsync();
+        Task<WordsToListDTO> GetEntityByIdAsync(int id);
+        Task<IEnumerable<WordsToListDTO>> GetMainEntitiesAsync(PaginationUrlQuery paginationUrlQuery = null);
         Task<IEnumerable<WordsDTO>> GetRangeOfEntitiesAsync(PaginationUrlQuery urlQuery = null);
+        int TotalRecords { get; }
     }
 }

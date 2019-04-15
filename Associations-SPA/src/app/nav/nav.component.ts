@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { WordsService } from '../_services/words.service';
 import { Words } from '../_interfaces/Words';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-nav',
@@ -11,7 +12,9 @@ export class NavComponent implements OnInit {
   selected: string;
   words: string[] = [];
 
-  constructor(private wordsService: WordsService) { }
+  constructor(private wordsService: WordsService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.loadWords();
@@ -23,6 +26,12 @@ export class NavComponent implements OnInit {
        this.words = data.map(d => d.word);
       }
     });
+  }
+  goToGraph() {
+    this.router.navigate(['']);
+  }
+  goToWords() {
+    this.router.navigate(['words']);
   }
 
 }
