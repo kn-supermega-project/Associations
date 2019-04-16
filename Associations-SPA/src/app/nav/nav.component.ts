@@ -11,6 +11,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class NavComponent implements OnInit {
   selected: string;
   words: string[] = [];
+  isGraph = true;
+  isWords = false;
 
   constructor(private wordsService: WordsService,
     private router: Router,
@@ -29,9 +31,13 @@ export class NavComponent implements OnInit {
   }
   goToGraph() {
     this.router.navigate(['']);
+    this.isWords = false;
+    this.isGraph = true;
   }
   goToWords() {
     this.router.navigate(['words']);
+    this.isWords = true;
+    this.isGraph = false;
   }
 
 }

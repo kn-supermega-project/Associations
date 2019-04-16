@@ -5,3 +5,7 @@
 ::ng-deep .dropdown-item.active {
     background-color: #343a40;
 }
+
+.navbar-brand {
+    color: #fff!important;
+}
