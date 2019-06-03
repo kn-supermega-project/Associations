@@ -1,6 +1,7 @@
 ﻿using Associations.BusinessLogic.Interfaces;
 using Associations.Common.DTOs;
 using Associations.Common.Extensions;
+using Associations.Common.RequestModels;
 using Associations.Common.UrlQueries;
 using Associations.DataAccess.Entity;
 using Associations.DataAccess.Interfaces;
@@ -59,6 +60,34 @@ namespace Associations.BusinessLogic.Services
             var dtos = _mapper.Map<List<Words>, List<WordsToListDTO>>(entities);
 
             return dtos;
+        }
+        public async Task<WordsDTO> CreateEntityAsync(WordRequestModel modelRequest)
+        {
+            var entity = _mapper.Map<WordRequestModel, Words>(modelRequest);
+
+            entity = await _uow.WordsRepository.CreateEntityAsync(entity);
+            var result = await _uow.SaveAsync();
+            if (!result)
+            {
+                return null;
+            }
+
+            if (entity == null) return null;
+
+            var dto = _mapper.Map<Words, WordsDTO>(entity);
+
+            return dto;
+        }
+
+        public async Task<bool> UpdateEntityByIdAsync(WordRequestModel modelRequest, int id)
+        {
+            var entity = _mapper.Map<WordRequestModel, Words>(modelRequest);
+            entity.Id = id;
+
+            var updated = await _uow.WordsRepository.UpdateAsync(entity);
+            var result = await _uow.SaveAsync();
+
+            return result;
         }
 
         public Task<IEnumerable<WordsDTO>> GetRangeOfEntitiesAsync(PaginationUrlQuery urlQuery = null)

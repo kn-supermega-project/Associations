@@ -1,22 +1,20 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand">Associations</a>
+  <a class="navbar-brand">Асоціації</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
   <div class="collapse navbar-collapse" id="navbarColor03">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item" [ngClass]="{active: isGraph}">
-        <a class="nav-link" (click)="goToGraph()">Graphs <span class="sr-only">(current)</span></a>
+      <li class="nav-item">
+        <a class="nav-link" (click)="goToGraph()">Граф <span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item" [ngClass]="{active: isWords}">
-        <a class="nav-link" (click)="goToWords()">Words</a>
+      <li class="nav-item">
+        <a class="nav-link" (click)="goToWords()">Слова</a>
       </li>
-    </ul>
-      <input [(ngModel)]="selected"
-      [typeahead]="words"
-      class="form-control"
-      style="width: 200px; margin-right: 4px;">
-      <button class="btn btn-secondary my-2 my-sm-0" type="submit">Move to word</button>
+      <li class="nav-item">
+        <a class="nav-link" (click)="goToWordAdd()">Додати Слова</a>
+      </li>
+      </ul>
   </div>
 </nav>

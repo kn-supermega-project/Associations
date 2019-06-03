@@ -1,4 +1,5 @@
 ﻿using Associations.Common.DTOs;
+using Associations.Common.RequestModels;
 using Associations.Common.UrlQueries;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -14,5 +15,6 @@ namespace Associations.BusinessLogic.Interfaces
         Task<List<WordRelsToListDTO>> GetEntityByMainWordIdAsync(int id, PaginationUrlQuery paginationUrlQuery = null);
         Task<WordRelsDTO> GetRangeOfEntitiesAsync(PaginationUrlQuery urlQuery = null);
         int TotalRecords { get; }
+        Task<WordRelsDTO> CreateEntityAsync(RelRequestModel modelRequest);
     }
 }

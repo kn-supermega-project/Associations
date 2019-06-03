@@ -1,6 +1,7 @@
 ﻿using Associations.BusinessLogic.Interfaces;
 using Associations.Common.DTOs;
 using Associations.Common.Pagination;
+using Associations.Common.RequestModels;
 using Associations.Common.UrlQueries;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -40,6 +41,22 @@ namespace AssociationsAPI.Controllers
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pageInfo));
 
             return Ok(dto);
+        }
+        [HttpPost]
+        public virtual async Task<ActionResult<WordRelsToListDTO>> Create([FromBody] RelRequestModel request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var dtos = await _wordRelsService.CreateEntityAsync(request);
+            if (dtos == null)
+            {
+                return StatusCode(500);
+            }
+
+            return CreatedAtAction("GetById", new { id = dtos.Id }, dtos);
         }
     }
 }

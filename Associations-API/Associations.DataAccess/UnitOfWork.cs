@@ -70,6 +70,23 @@ namespace Associations.DataAccess
                 return false;
             }
         }
+        public async Task<bool> SaveAsync()
+        {
+            try
+            {
+                var changes = _context.ChangeTracker.Entries().Count(
+                    p => p.State == EntityState.Modified || p.State == EntityState.Deleted
+                                                         || p.State == EntityState.Added);
+                if (changes == 0) return true;
+
+                return await _context.SaveChangesAsync() > 0;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return false;
+            }
+        }
 
         #region IDisposable Support
         private bool _disposedValue = false; // To detect redundant calls

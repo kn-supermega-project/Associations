@@ -1,6 +1,7 @@
 ﻿using Associations.BusinessLogic.Interfaces;
 using Associations.Common.DTOs;
 using Associations.Common.Extensions;
+using Associations.Common.RequestModels;
 using Associations.Common.UrlQueries;
 using Associations.DataAccess.Entity;
 using Associations.DataAccess.Interfaces;
@@ -55,7 +56,23 @@ namespace Associations.BusinessLogic.Services
         }
 
 
+        public async Task<WordRelsDTO> CreateEntityAsync(RelRequestModel modelRequest)
+        {
+            var entity = _mapper.Map<RelRequestModel, WordRels>(modelRequest);
 
+            entity = await _uow.WordRelsRepository.CreateEntityAsync(entity);
+            var result = await _uow.SaveAsync();
+            if (!result)
+            {
+                return null;
+            }
+
+            if (entity == null) return null;
+
+            var dto = _mapper.Map<WordRels, WordRelsDTO>(entity);
+
+            return dto;
+        }
         Task<WordRelsDTO> IWordRelsService.GetRangeOfEntitiesAsync(PaginationUrlQuery urlQuery)
         {
             throw new NotImplementedException();

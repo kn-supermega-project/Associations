@@ -13,5 +13,6 @@ namespace Associations.DataAccess.Interfaces
         IWordRelsRepository WordRelsRepository { get; }
 
         Task<bool> SaveAllAsync();
+        Task<bool> SaveAsync();
     }
 }

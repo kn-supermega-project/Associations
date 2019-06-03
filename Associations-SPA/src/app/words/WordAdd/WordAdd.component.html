@@ -1,0 +1,121 @@
+<button
+  type="button"
+  class="btn btn-secondary sidebar-btn"
+  *ngIf="!IsSideBarActive"
+  (click)="showSideBar()"
+>
+  <fa name="list" size="2x"></fa>
+</button>
+
+<div class="left-side-container bg-dark" *ngIf="IsSideBarActive">
+  <ul class="lnav-group">
+    <li class="lnav-btn " [ngClass]="{ active: isTotal }">
+      <a class="lnav-link" (click)="showAddMain()"
+        ><fa name="plus" class="pr-1"></fa>Додати слово</a
+      >
+    </li>
+    <li class="lnav-btn " [ngClass]="{ active: isTotal }">
+      <a class="lnav-link" (click)="showAddRel()"
+        ><fa name="plus" class="pr-1"></fa>Додати новий зв'язок</a
+      >
+    </li>
+    <li class="lnav-btn ">
+      <a class="lnav-link" (click)="showSideBar()"
+        ><fa name="close" class="pr-2"></fa>Закрити</a
+      >
+    </li>
+  </ul>
+</div>
+
+<!--ADD NEW WORD-->
+<div class="main-word-container" *ngIf="IsAddMain">
+  <div class="main-word-header">
+    <h3>
+      Додати нове слово
+    </h3>
+  </div>
+  <div class="form-group">
+    <form [formGroup]="CreateMainForm" novalidate class="main-word-form">
+        <div><b>Введіть слово:</b></div>
+        <input
+          class="form-control"
+          formControlName="addMain"
+          type="text"
+          placeholder=""
+        />
+        <div><b>Виберіть тип слова:</b></div>
+        <select class="custom-select mt-1" formControlName="Type">
+          <option value="1">Головне</option>
+          <option value="2">Асоціація</option>
+        </select>
+        <button class="btn btn-dark bt-add" (click)="createMain()">
+          Додати
+        </button>
+    </form>
+  </div>
+</div>
+
+<div class="rel-word-container" *ngIf="IsAddRel">
+  <div class="rel-word-header">
+    <h3>
+      Додати новий зв'язок
+    </h3>
+  </div>
+  <form [formGroup]="CreateRelation" novalidate class="main-word-form">
+      <div><b>Виберіть головне слово для якого створюється асоціація:</b></div>
+      <select class="custom-select mt-1" formControlName="MainWord">
+        <option *ngFor="let word of words" value="{{ word.id }}">{{
+          word.word
+        }}</option>
+      </select>
+      <div><b>Виберіть слово-асоціацію:</b></div>
+      <select class="custom-select mt-1" formControlName="RelWord">
+        <option *ngFor="let word of words" value="{{ word.id }}">{{
+          word.word
+        }}</option>
+      </select>
+      <div><b>Введіть кількість чоловічих голосів:</b></div>
+      <input
+        class="form-control"
+        type="text"
+        placeholder=""
+        formControlName="MPoints"
+      />
+      <div><b>Введіть кількість жіночих голосів:</b></div>
+      <input
+        class="form-control"
+        type="text"
+        placeholder=""
+        formControlName="FPoints"
+      />
+      <div><b>Введіть кількість загальних голосів:</b></div>
+      <input
+        class="form-control"
+        type="text"
+        placeholder=""
+        formControlName="TPoints"
+      />
+      <div><b>Введіть чоловічі відсотки:</b></div>
+      <input
+        class="form-control"
+        type="text"
+        placeholder=""
+        formControlName="MPer"
+      />
+      <div><b>Введіть жіночі відсотки:</b></div>
+      <input
+        class="form-control"
+        type="text"
+        placeholder=""
+        formControlName="FPer"
+      />
+      <div><b>Введіть загальні відсотки:</b></div>
+      <input
+        class="form-control"
+        type="text"
+        placeholder=""
+        formControlName="TPer"
+      />
+      <button class="btn btn-dark bt-add" (click)="createRel()">Додати</button>
+  </form>
+</div>

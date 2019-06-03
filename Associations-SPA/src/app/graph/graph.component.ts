@@ -48,9 +48,9 @@ export class GraphComponent implements OnInit {
                     source: word.id.toString(),
                     target: rel.wordRelId.toString(),
                     model: {
-                     totalLabel: 'Total Points: ' + rel.totalPoints.toString(),
-                     maleLabel: 'Male Points: ' + rel.malePoints.toString(),
-                     femaleLabel: 'Female Points: ' + rel.femalePoints.toString()
+                     totalLabel: 'Загально: ' + rel.totalPoints.toString(),
+                     maleLabel: 'Чоловічі: ' + rel.malePoints.toString(),
+                     femaleLabel: 'Жіночі: ' + rel.femalePoints.toString()
                     }
                   });
               });

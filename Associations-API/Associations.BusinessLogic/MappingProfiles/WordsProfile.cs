@@ -1,5 +1,6 @@
 ﻿using Associations.Common.DTOs;
 using Associations.DataAccess.Entity;
+using Associations.Common.RequestModels;
 using AssociationsAPI.DTOs;
 using AutoMapper;
 
@@ -16,6 +17,8 @@ namespace Associations.BusinessLogic.MappingProfiles
             CreateMap<Words, WordsToListDTO>();
 
             CreateMap<WordsDTO, Words>();
+
+            CreateMap<WordRequestModel, Words>();
         }
     }
 }

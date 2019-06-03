@@ -1,6 +1,7 @@
 ﻿using Associations.BusinessLogic.Interfaces;
 using Associations.Common.DTOs;
 using Associations.Common.Pagination;
+using Associations.Common.RequestModels;
 using Associations.Common.UrlQueries;
 using AssociationsAPI.DTOs;
 using Microsoft.AspNetCore.Mvc;
@@ -63,6 +64,40 @@ namespace AssociationsAPI.Controllers
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pageInfo));
 
             return Ok(dtos);
+        }
+
+        [HttpPost]
+        public virtual async Task<ActionResult<WordsDTO>> Create([FromBody] WordRequestModel request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var dtos = await _wordsService.CreateEntityAsync(request);
+            if (dtos == null)
+            {
+                return StatusCode(500);
+            }
+
+            return CreatedAtAction("GetById", new { id = dtos.Id }, dtos);
+        }
+
+        [HttpPut("{id}")]
+        public virtual async Task<ActionResult> Update([FromRoute]int id, [FromBody]WordRequestModel request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _wordsService.UpdateEntityByIdAsync(request, id);
+            if (!result)
+            {
+                return StatusCode(500);
+            }
+
+            return NoContent();
         }
 
     }

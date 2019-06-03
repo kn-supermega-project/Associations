@@ -10,6 +10,7 @@ namespace AssociationsAPI.DTOs
     {
         public int Id { get; set; }
         public string Word { get; set; }
+        public int Type { get; set; }
         public WordRelsDTO[] Rels { get; set; }
 
     }

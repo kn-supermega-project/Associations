@@ -1,0 +1,77 @@
+.main-word-header {
+    margin: auto;
+    width:300px;
+}
+.rel-word-header{
+    margin: auto;
+    width: 550px;
+}
+
+.main-word-form {
+    width: 200px;
+    margin: auto;
+    margin-top: 20px; 
+}
+
+.main-word-container {
+    width: 700px;
+    margin: auto;
+}
+
+.sidebar-btn {
+    position: fixed;
+    width: 70px;
+    height: 70px;
+    z-index: 2;
+    left: 30px;
+    top: 70px;
+    background-color: #343a40;
+    border-radius: 50%;
+    box-shadow: 7px 10px 7px -7px rgba(0,0,0,0.7);
+}
+
+.sidebar-btn fa {
+    color: rgba(145, 145, 145, 0.5);
+}
+.sidebar-btn :hover {
+    color: rgba(145, 145, 145, 0.90);
+}
+
+.left-side-container {
+    position: absolute;
+    width: 12%;
+    height: calc(100% - 56px);
+    border-top: 1px solid gray;
+    z-index: 2;
+}
+.left-side-container .lnav-btn {
+    width: 100%;
+    margin-bottom: 10px;
+    background-color: inherit;
+    border: 0;
+    text-align: left;
+}
+.left-side-container .lnav-btn .lnav-link {
+    color: rgba(145, 145, 145, 0.5);
+    cursor: pointer;
+} 
+.left-side-container .lnav-btn .lnav-link:hover {
+    color: rgba(255, 255, 255, 0.90);
+} 
+
+.left-side-container .lnav-group {
+    margin-top: 20px;
+    padding-left: 15px;
+    list-style-type: none;
+}
+
+.bt-delete {
+    width: 200px;
+    margin: auto;
+    margin-top: 10px;
+}
+.bt-add {
+    width: 200px;
+    margin: auto;
+    margin-top: 10px;
+}

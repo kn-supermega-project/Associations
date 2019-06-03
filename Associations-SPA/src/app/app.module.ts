@@ -7,7 +7,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { GraphComponent } from './graph/graph.component';
@@ -19,6 +19,7 @@ import { WordsDetailsComponent } from './words/words-details/words-details.compo
 import { ApiService } from './_services/api.service';
 import { RouterModule } from '@angular/router';
 import { appRoutes } from './routes';
+import { WordAddComponent } from './words/WordAdd/WordAdd.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { appRoutes } from './routes';
       NavComponent,
       GraphComponent,
       WordsListComponent,
-      WordsDetailsComponent
+      WordsDetailsComponent,
+      WordAddComponent
    ],
    imports: [
       BrowserModule,
@@ -41,7 +43,8 @@ import { appRoutes } from './routes';
       TypeaheadModule.forRoot(),
       AngularFontAwesomeModule,
       FormsModule,
-      RouterModule.forRoot(appRoutes)
+      RouterModule.forRoot(appRoutes),
+      ReactiveFormsModule
    ],
    providers: [
       ApiService,

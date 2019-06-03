@@ -171,5 +171,6 @@ namespace Associations.DataAccess.Repositories
 
             return _dbSet.AsNoTracking().CountAsync(predicate);
         }
+
     }
 }

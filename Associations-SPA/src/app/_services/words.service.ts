@@ -6,6 +6,7 @@ import { HttpClient, HttpResponse, HttpParams } from "@angular/common/http";
 import { environment } from "src/environments/environment";
 import { WordsToList } from "../_interfaces/WordsToList";
 import { ApiService } from "./api.service";
+import { MainWordRequest } from "../RequestModels/MainWord-request";
 
 @Injectable()
 export class WordsService {
@@ -17,7 +18,7 @@ export class WordsService {
     return this.apiService.get(`${this.ctrlUrl}`);
   }
   getById(id: number) {
-    return this.apiService.getById(`${this.ctrlUrl}/`, id)
+    return this.apiService.getById(`${this.ctrlUrl}/`, id);
   }
   getMainWords(pageSize: number, pageNumber: number): Observable<HttpResponse<WordsToList[]>> {
     const params = new HttpParams()
@@ -25,5 +26,10 @@ export class WordsService {
     .set('pageNumber', pageNumber.toString());
   return this.apiService.getFullResponse(`${this.ctrlUrl}/main`, params);
   }
-
+  create(request: MainWordRequest): Observable<Words> {
+    return this.apiService.post(`/${this.ctrlUrl}`, request);
+  }
+  update(id: number, request: MainWordRequest): Observable<Object> {
+    return this.apiService.put(`/${this.ctrlUrl}/${id}`, request);
+  }
 }

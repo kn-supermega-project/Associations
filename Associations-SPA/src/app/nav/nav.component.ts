@@ -9,35 +9,19 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
-  selected: string;
-  words: string[] = [];
-  isGraph = true;
-  isWords = false;
 
-  constructor(private wordsService: WordsService,
-    private router: Router,
-    private activatedRoute: ActivatedRoute) { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
-    this.loadWords();
   }
 
-  loadWords() {
-    this.wordsService.getAll().subscribe((data: Words[]) => {
-      if (data) {
-       this.words = data.map(d => d.word);
-      }
-    });
-  }
   goToGraph() {
     this.router.navigate(['']);
-    this.isWords = false;
-    this.isGraph = true;
   }
   goToWords() {
     this.router.navigate(['words']);
-    this.isWords = true;
-    this.isGraph = false;
   }
-
+  goToWordAdd() {
+    this.router.navigate(['wordadd']);
+  }
 }

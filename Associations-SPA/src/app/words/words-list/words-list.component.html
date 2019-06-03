@@ -2,15 +2,15 @@
   <thead>
     <tr>
       <th scope="col">Id</th>
-      <th scope="col">Word</th>
-      <th class="right-column" scope="col">Relations table</th>
+      <th scope="col">Слово</th>
+      <th class="right-column" scope="col">Зв'язки</th>
     </tr>
   </thead>
   <tbody>
     <tr class="table-light" *ngFor="let word of wordsToList">
       <td>{{word.id}}</td>
       <th scope="row">{{word.word}}</th>
-      <td class="right-column"><button class="btn btn-secondary"(click)="details(word.id)">See details</button></td>
+      <td class="right-column"><button class="btn btn-secondary"(click)="details(word.id)"> Детальніше</button></td>
     </tr>
   </tbody>
 </table> 
