@@ -9,6 +9,7 @@
 
 .right-column {
     padding-left: 150px;
+    text-align: right;
 }
 .pagination {
     width: 15%;

@@ -24,12 +24,15 @@ export class WordsService {
     const params = new HttpParams()
     .set('pageSize', pageSize.toString())
     .set('pageNumber', pageNumber.toString());
-  return this.apiService.getFullResponse(`${this.ctrlUrl}/main`, params);
+  return this.apiService.getFullResponse(`${this.ctrlUrl}`, params);
   }
   create(request: MainWordRequest): Observable<Words> {
     return this.apiService.post(`/${this.ctrlUrl}`, request);
   }
   update(id: number, request: MainWordRequest): Observable<Object> {
     return this.apiService.put(`/${this.ctrlUrl}/${id}`, request);
+  }
+  delete(id: number): Observable<Object> {
+    return this.apiService.delete(`/${this.ctrlUrl}/${id}`);
   }
 }

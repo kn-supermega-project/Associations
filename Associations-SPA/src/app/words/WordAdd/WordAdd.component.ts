@@ -46,9 +46,9 @@ export class WordAddComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadMainWords();
+    this.loadWords();
   }
-  loadMainWords() {
+  loadWords() {
     this.wordsService.getAll().subscribe((data: Words[]) => {
       if (data) {
        this.words = data.map(d => d);

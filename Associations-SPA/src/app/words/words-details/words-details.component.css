@@ -17,3 +17,22 @@
     background-color: black;
     border-color:black;
 }
+
+.sidebar-btn {
+    position: fixed;
+    width: 70px;
+    height: 70px;
+    z-index: 2;
+    left: 30px;
+    top: 70px;
+    background-color: #343a40;
+    border-radius: 50%;
+    box-shadow: 7px 10px 7px -7px rgba(0,0,0,0.7);
+}
+
+.sidebar-btn fa {
+    color: rgba(145, 145, 145, 0.5);
+}
+.sidebar-btn :hover {
+    color: rgba(145, 145, 145, 0.90);
+}

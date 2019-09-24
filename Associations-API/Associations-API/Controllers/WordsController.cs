@@ -24,17 +24,7 @@ namespace AssociationsAPI.Controllers
             _wordsService = wordsService;
         }
         // GET: /words
-        [HttpGet]
-        public virtual async Task<ActionResult<IEnumerable<WordsDTO>>> Get()
-        {
-            var dtos = await _wordsService.GetAllEntitiesAsync();
-            if (!dtos.Any())
-            {
-                return NoContent();
-            }
 
-            return Ok(dtos);
-        }
         [HttpGet("{id}")]
         public virtual async Task<ActionResult<WordsToListDTO>> Get(int id)
         {
@@ -46,10 +36,10 @@ namespace AssociationsAPI.Controllers
 
             return Ok(dto);
         }
-        [HttpGet("main")]
+        [HttpGet]
         public virtual async Task<ActionResult<IEnumerable<WordsDTO>>> Get([FromQuery]PaginationUrlQuery paginationUrlQuery = null)
         {
-            var dtos = await _wordsService.GetMainEntitiesAsync(paginationUrlQuery);
+            var dtos = await _wordsService.GetAllEntitiesAsync(paginationUrlQuery);
             if (!dtos.Any())
             {
                 return NoContent();

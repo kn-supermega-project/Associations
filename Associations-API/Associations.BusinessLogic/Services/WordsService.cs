@@ -31,10 +31,11 @@ namespace Associations.BusinessLogic.Services
             _uow = uow;
             _mapper = mapper;
         }
-        public async Task<IEnumerable<WordsDTO>> GetAllEntitiesAsync()
+        public async Task<IEnumerable<WordsDTO>> GetAllEntitiesAsync(PaginationUrlQuery paginationUrlQuery = null)
         {
-            var entities = await _uow.WordsRepository.GetAllEntitiesAsync(
-                include: r => r.Include(o => o.Rels));
+            var entities = await _uow.WordsRepository.GetRangeAsync(
+                include: r => r.Include(o => o.Rels),
+                paginationUrlQuery: paginationUrlQuery);
 
             var dtos = _mapper.Map<List<Words>, List<WordsDTO>>(entities);
 

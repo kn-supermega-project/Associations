@@ -7,6 +7,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
+import { ModalModule } from 'ngx-bootstrap/modal';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
@@ -41,6 +42,7 @@ import { WordAddComponent } from './words/WordAdd/WordAdd.component';
       BrowserModule,
       TabsModule.forRoot(),
       TypeaheadModule.forRoot(),
+      ModalModule.forRoot(),
       AngularFontAwesomeModule,
       FormsModule,
       RouterModule.forRoot(appRoutes),
