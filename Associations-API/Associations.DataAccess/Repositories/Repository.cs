@@ -114,7 +114,6 @@ namespace Associations.DataAccess.Repositories
 
             _dbSet.Remove(entityToDelete);
         }
-
         public async Task<List<TEntity>> GetAllEntitiesAsync(Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null)
         {
             IQueryable<TEntity> query = _dbSet;

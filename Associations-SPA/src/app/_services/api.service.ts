@@ -31,7 +31,7 @@ export class ApiService {
   }
 
   public put(path: string, body: Object = {}): Observable<any> {
-    const url = `${environment}${path}`;
+    const url = `${environment.apiUrl}${path}`;
     return this.http.put(url, body)
       .pipe(
           catchError(this.handleError)

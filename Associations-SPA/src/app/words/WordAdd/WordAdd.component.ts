@@ -3,20 +3,38 @@ import { WordsService } from 'src/app/_services/words.service';
 import { Words } from 'src/app/_interfaces/Words';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MainWordRequest } from 'src/app/RequestModels/MainWord-request';
-import { WordsRel } from 'src/app/_interfaces/WordsRel';
 import { RelWordRequest } from 'src/app/RequestModels/RelWord-requst';
 import { WordRelsService } from 'src/app/_services/WordRels.service';
+import { AlertifyService } from 'src/app/_services/alertify.service';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'app-WordAdd',
   templateUrl: './WordAdd.component.html',
   styleUrls: ['./WordAdd.component.css']
 })
 export class WordAddComponent implements OnInit {
-  selectedMain: string;
-  selectedRel: WordsRel;
+
+  constructor(private wordsService: WordsService,
+    private relService: WordRelsService,
+    private alertify: AlertifyService) {
+    this.CreateMainForm = new FormGroup({
+      addMain: new FormControl(),
+      Type: new FormControl()
+   });
+   this.CreateRelation = new FormGroup({
+     MPoints: new FormControl(),
+     FPoints: new FormControl(),
+     TPoints: new FormControl(),
+     MPer: new FormControl(),
+     FPer: new FormControl(),
+     TPer: new FormControl()
+   });
+  }
+  selectedMain = '';
+  selectedRel = '';
   words: Words[] = [];
-  relWords: WordsRel[] = [];
+  wordNames: string[] = [];
   mainWordRequest: MainWordRequest;
   relRequest: RelWordRequest;
 
@@ -27,23 +45,16 @@ export class WordAddComponent implements OnInit {
 
   CreateMainForm: FormGroup;
   CreateRelation: FormGroup;
+  config = {
+    search: true,
+    placeholder: 'Виберіть',
+    limitTo: 5,
+    moreText: 'more',
+    noResultsFound: 'Такого слова не знайдено',
+    searchPlaceholder: 'Search',
+    searchOnKey: 'name'
+    };
 
-  constructor(private wordsService: WordsService, private relService: WordRelsService) {
-    this.CreateMainForm = new FormGroup({
-      addMain: new FormControl(),
-      Type: new FormControl()
-   });
-   this.CreateRelation = new FormGroup({
-     MainWord: new FormControl(),
-     RelWord: new FormControl(),
-     MPoints: new FormControl(),
-     FPoints: new FormControl(),
-     TPoints: new FormControl(),
-     MPer: new FormControl(),
-     FPer: new FormControl(),
-     TPer: new FormControl()
-   });
-  }
 
   ngOnInit() {
     this.loadWords();
@@ -52,6 +63,7 @@ export class WordAddComponent implements OnInit {
     this.wordsService.getAll().subscribe((data: Words[]) => {
       if (data) {
        this.words = data.map(d => d);
+       this.wordNames = data.map(d => d.word);
       }
     });
   }
@@ -78,13 +90,14 @@ export class WordAddComponent implements OnInit {
       Type: this.CreateMainForm.get('Type').value
     };
     this.wordsService.create(this.mainWordRequest).subscribe((result: any) => {
+      this.alertify.success('Слово додано успішно');
     } );
     this.CreateMainForm.reset();
   }
   createRel() {
     this.relRequest = {
-      wordId: this.CreateRelation.get('MainWord').value,
-      wordRelId: this.CreateRelation.get('RelWord').value,
+      wordId: this.words.find(d => d.word === this.selectedMain).id,
+      wordRelId: this.words.find(d => d.word === this.selectedRel).id,
       malePoints: this.CreateRelation.get('MPoints').value,
       femalePoints: this.CreateRelation.get('FPoints').value,
       totalPoints: this.CreateRelation.get('TPoints').value,
@@ -93,8 +106,11 @@ export class WordAddComponent implements OnInit {
       totalPercents: this.CreateRelation.get('TPer').value
     };
     this.relService.create(this.relRequest).subscribe((result: any) => {
+      this.alertify.success('Зв\'язок додано успішно');
+    },
+    (error) => {
+      this.alertify.error('Такий зв\'язок вже існує, ви можете змінити його в розділі "слова"');
     } );
     this.CreateRelation.reset();
   }
-
 }

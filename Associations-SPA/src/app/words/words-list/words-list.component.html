@@ -1,9 +1,17 @@
+<div class="search-box">
+    <div class="input-group">
+        <input type="text" [(ngModel)]="searchString" class="form-control" placeholder="Введіть слово для пошуку" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="button" (click)="search()">Шукати</button>
+        </div>
+      </div>
+</div>
 <table class="table table-hover">
   <thead>
     <tr>
       <th scope="col">Id</th>
       <th scope="col">Слово</th>
-      <th class="right-column" scope="col">Зв'язки</th>
+      <th class="right-column" scope="col">Дії</th>
     </tr>
   </thead>
   <tbody>
@@ -12,17 +20,17 @@
       <th scope="row">{{word.word}}</th>
       <td class="right-column">
       
-      <button *ngIf="word.type === 1" class="btn btn-secondary mr-1"(click)="details(word.id)"><fa name="info-circle" class="pr-1"></fa></button>
+      <button *ngIf="word.rels.length" class="btn btn-secondary mr-1"(click)="details(word.id)"><fa name="info-circle" class="pr-1"></fa></button>
       
-      <button class="btn btn-warning mr-1"(click)="OpenIdModal(templateEdit)"> <fa name="edit" class="pr-1"></fa></button>
-      <button class="btn btn-danger"(click)="openModal(templateDelete)"> <fa name="trash" class="pr-1"></fa></button></td>
+      <button class="btn btn-warning mr-1"(click)="openModal(templateEdit, word.id)"> <fa name="edit" class="pr-1"></fa></button>
+      <button class="btn btn-danger"(click)="openModal(templateDelete, word.id)"> <fa name="trash" class="pr-1"></fa></button></td>
     </tr>
   </tbody>
 </table> 
 <div>
   <ul class="pagination pagination-sm" >
     <li class="page-item active"*ngFor="let t of totalRecords">
-      <a class="page-link" (click)="paginate(t)">{{t}}</a>
+      <a class="page-link" (click)="paginate(t)"[class.active]="t == activeItem">{{t}}</a>
     </li>
   </ul>
 </div>
@@ -30,29 +38,33 @@
 
 <ng-template #templateEdit>
     <div class="modal-header">
-      <h4 class="modal-title pull-left">Змінити слово</h4>
+      <h4 class="modal-title pull-left">Змінити слово: {{OldWord?.word}} </h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
-            <div><b>Введіть слово:</b></div>
-            <input [(ngModel)]="newWord"/>
-      <button class="btn btn-success" (click)="EditWord(w)">Змінити</button>
-      <button class="btn btn-danger" (click)="modalRef.hide()">Скасувати</button>
+      <div><b>Введіть слово для зміни:</b></div>
+      <div class="change-container">
+      <input [(ngModel)]="newWord"/>
+      <div class="pt-2">
+      <button class="btn btn-success" [disabled]="!newWord" (click)="EditWord()">Змінити</button>
+      <button class="btn btn-secondary ml-2" (click)="modalRef.hide()">Скасувати</button>
     </div>
+    </div>
+  </div>
   </ng-template>
 
   <ng-template #templateDelete>
       <div class="modal-header">
-        <h4 class="modal-title pull-left">Видалити</h4>
+        <h4 class="modal-title pull-left">Видалити: {{OldWord?.word}} </h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        Ви точно хочете видалити слово: 
-      </div>
-      <button class="btn btn-success">Так</button>
-      <button class="btn btn-secondary" (click)="modalRef.hide()">Скасувати</button>
+        <b><p style="color:red">Ви точно хочете видалити слово?</p></b>
+      <button class="btn btn-danger btn-agree" (click)="deleteWord()">Так</button>
+      <button class="btn btn-secondary btn-disagree" (click)="modalRef.hide()">Скасувати</button>
+    </div>
     </ng-template>

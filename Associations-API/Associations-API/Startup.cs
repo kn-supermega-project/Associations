@@ -66,8 +66,15 @@ namespace Associations_API
             }
             
             app.UseHttpsRedirection();
+            app.UseDefaultFiles();
             app.UseStaticFiles();
-            app.UseMvc();
+            app.UseMvc(routes =>
+            {
+                routes.MapSpaFallbackRoute(
+                    name: "spa-fallback",
+                    defaults: new { controller = "Fallback", action = "Index" }
+                );
+            });
         }
 
         public virtual IServiceCollection InitializeAutomapper(IServiceCollection services)

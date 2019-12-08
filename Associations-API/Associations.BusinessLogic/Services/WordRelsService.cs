@@ -40,6 +40,15 @@ namespace Associations.BusinessLogic.Services
 
             return dtos;
         }
+        public async Task<WordRelsToListDTO> GetEntityByIdAsync(int id)
+        {
+            var entity = await _uow.WordRelsRepository.GetEntityAsync(id);
+
+            var dtos = _mapper.Map<WordRels, WordRelsToListDTO>(entity);
+
+            return dtos;
+
+        }
 
         public async Task<List<WordRelsToListDTO>> GetEntityByMainWordIdAsync(int id, [FromQuery]PaginationUrlQuery paginationUrlQuery = null)
         {
@@ -76,6 +85,47 @@ namespace Associations.BusinessLogic.Services
         Task<WordRelsDTO> IWordRelsService.GetRangeOfEntitiesAsync(PaginationUrlQuery urlQuery)
         {
             throw new NotImplementedException();
+        }
+        public async Task<bool> DeleteEntityByIdAsync(int id)
+        {
+            await _uow.WordRelsRepository.DeleteAsync(id);
+
+            var result = await _uow.SaveAsync();
+
+            return result;
+        }
+        public async Task<bool> UpdateEntityByIdAsync(RelRequestModel modelRequest, int id)
+        {
+            var entity = _mapper.Map<RelRequestModel, WordRels>(modelRequest);
+            entity.Id = id;
+
+            var updated = await _uow.WordRelsRepository.UpdateAsync(entity);
+            var result = await _uow.SaveAsync();
+
+            return result;
+        }
+        public async Task<IEnumerable<WordRelsToListDTO>> GetFilteredEntitiesAsync(
+        int id,
+        string searchingUrlQuery = null,
+        PaginationUrlQuery paginationUrlQuery = null)
+        {
+            Expression<Func<WordRels, bool>> filter = e => true;
+
+            filter = filter.And(e => e.WordId == id);
+
+            if (!string.IsNullOrEmpty(searchingUrlQuery))
+            {
+                filter = filter.And(e => e.RelWord.Word.Contains(searchingUrlQuery));
+            }
+
+            var entities = await _uow.WordRelsRepository.GetRangeAsync(
+                include: r => r.Include(e => e.RelWord),
+                filter: filter,
+                paginationUrlQuery: paginationUrlQuery);
+
+            var dtos = _mapper.Map<List<WordRels>, List<WordRelsToListDTO>>(entities);
+
+            return dtos;
         }
     }
 }

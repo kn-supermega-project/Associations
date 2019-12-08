@@ -3,14 +3,16 @@ using Associations.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Associations.DataAccess.Migrations
 {
     [DbContext(typeof(AssociationsDbContext))]
-    partial class AssociationsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191208160451_AddUniq")]
+    partial class AddUniq
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

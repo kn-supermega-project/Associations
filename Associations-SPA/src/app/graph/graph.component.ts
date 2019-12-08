@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import * as shape from 'd3-shape';
-import { WordsRel } from '../_interfaces/WordsRel';
 import { WordsService } from '../_services/words.service';
 import { NgxGraphModule } from '@swimlane/ngx-graph';
 import { Words } from '../_interfaces/Words';
@@ -25,6 +24,7 @@ export class GraphComponent implements OnInit {
 
   ngOnInit() {
     this.showGraph();
+    window.dispatchEvent(new Event('resize'));
   }
 
   showGraph() {
@@ -56,6 +56,7 @@ export class GraphComponent implements OnInit {
               });
           });
        });
+       this.ngAfterViewInit();
   }
 
   showTotal() {

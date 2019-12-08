@@ -55,6 +55,29 @@ namespace AssociationsAPI.Controllers
 
             return Ok(dtos);
         }
+        [HttpGet("filtered")]
+        public virtual async Task<ActionResult<IEnumerable<WordsDTO>>> Get(
+            [FromQuery]string searchString = null,
+            [FromQuery]PaginationUrlQuery paginationUrlQuery = null)
+        {
+            var dtos = await _wordsService.GetFilteredEntitiesAsync(searchString, paginationUrlQuery);
+
+            if (dtos == null)
+            {
+                return NotFound();
+            }
+
+            var pageInfo = new PageInfo()
+            {
+                PageNumber = paginationUrlQuery.PageNumber,
+                PageSize = paginationUrlQuery.PageSize,
+                TotalRecords = _wordsService.TotalRecords
+            };
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pageInfo));
+
+            return Ok(dtos);
+        }
 
         [HttpPost]
         public virtual async Task<ActionResult<WordsDTO>> Create([FromBody] WordRequestModel request)
@@ -70,7 +93,7 @@ namespace AssociationsAPI.Controllers
                 return StatusCode(500);
             }
 
-            return CreatedAtAction("GetById", new { id = dtos.Id }, dtos);
+            return Ok();
         }
 
         [HttpPut("{id}")]
@@ -89,6 +112,21 @@ namespace AssociationsAPI.Controllers
 
             return NoContent();
         }
+        [HttpDelete("{id}")]
+        public virtual async Task<ActionResult> Delete([FromRoute]int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var result = await _wordsService.DeleteEntityByIdAsync(id);
 
+            if (!result)
+            {
+                return BadRequest();
+            }
+
+            return NoContent();
+        }
     }
 }

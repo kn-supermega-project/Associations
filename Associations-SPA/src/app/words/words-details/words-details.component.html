@@ -1,13 +1,22 @@
+<div class="search-box">
+  <div class="input-group">
+      <input type="text" [(ngModel)]="searchString" class="form-control" placeholder="Введіть слово зі зв'язку для пошуку" aria-describedby="basic-addon2">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button" (click)="search()">Шукати</button>
+      </div>
+    </div>
+</div>
 <table class="table table-hover">
   <thead>
     <tr>
-      <th scope="col">{{mainWord.word}}(Головне слово)</th>
-      <th scope="col">Жіночі голоси</th>
-      <th scope="col">Чоловічі голоси</th>
-      <th scope="col">Загальні голоси</th>
+      <th scope="col">{{mainWord?.word}}(Головне слово)</th>
+      <th scope="col">Жіночі реакції</th>
+      <th scope="col">Чоловічі реакції</th>
+      <th scope="col">Загальні реакції</th>
       <th scope="col">Жіночі відсотки</th>
       <th scope="col">Чоловічі відсотки</th>
       <th scope="col">Загальні відсотки</th>
+      <th class="right-column" scope="col">Дії над зв'язками</th>
     </tr>
   </thead>
   <tr class="table-light" *ngFor="let rel of relWords">
@@ -18,12 +27,97 @@
     <td>{{rel.femalePercents}}%</td>
     <td>{{rel.malePercents}}%</td>
     <td>{{rel.totalPercents}}%</td>
+    <td class="right-column">
+      <button class="btn btn-warning mr-1"(click)="openModal(templateEdit, rel?.relWord.id, rel.id)"> <fa name="edit" class="pr-1"></fa></button>
+      <button class="btn btn-danger"(click)="openModal(templateDelete, rel?.relWord.id, rel.id)"> <fa name="trash" class="pr-1"></fa></button>
+    </td>
   </tr>
   </table>
   <div class="pt-2">
     <ul class="pagination pagination-sm" >
       <li class="page-item active"*ngFor="let t of totalRecords">
-        <a class="page-link" (click)="paginate(t)">{{t}}</a>
+        <a class="page-link" (click)="paginate(t)"[class.active]="t == activeItem">{{t}}</a>
       </li>
     </ul>
   </div>
+
+  <ng-template #templateEdit>
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Змінити значення зв'язку між словом: {{OldWord?.word}} і {{mainWord?.word}} </h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <form [formGroup]="ChangeRelation">
+          <div class="change-container">
+        <div><b>Введіть кількість чоловічих реакцій:</b></div>
+        <input
+          class="form-control"
+          type="number"
+          placeholder=""
+          formControlName="MPoints"
+          required
+        />
+        <div><b>Введіть кількість жіночих реакцій:</b></div>
+        <input
+          class="form-control"
+          type="number"
+          placeholder=""
+          formControlName="FPoints"
+          required
+        />
+        <div ><b>Введіть кількість загальних реакцій:</b></div>
+        <input
+          class="form-control"
+          type="number"
+          placeholder=""
+          formControlName="TPoints"
+          required
+        />
+        <div><b>Введіть чоловічі відсотки:</b></div>
+        <input
+          class="form-control"
+          type="number"
+          placeholder=""
+          formControlName="MPer"
+          required
+        />
+        <div><b>Введіть жіночі відсотки:</b></div>
+        <input
+          class="form-control"
+          type="number"
+          placeholder=""
+          formControlName="FPer"
+          required
+        />
+        <div><b>Введіть загальні відсотки:</b></div>
+        <input
+          class="form-control"
+          type="number"
+          placeholder=""
+          formControlName="TPer"
+          required
+        />
+      </div>
+    </form>
+        <div class="pt-2">
+        <button class="btn btn-success" [disabled]="ChangeRelation.invalid" (click)="EditWord()">Змінити</button>
+        <button class="btn btn-secondary ml-2" (click)="modalRef.hide()">Скасувати</button>
+      </div>
+      </div>
+    </ng-template>
+  
+    <ng-template #templateDelete>
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">Видалити: {{OldWord?.word}} </h4>
+          <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <b><p style="color:red">Ви точно хочете видалити зв'язок між слово {{mainWord?.word}} і {{OldWord?.word}}?</p></b>
+        <button class="btn btn-danger btn-agree" (click)="deleteWord()">Так</button>
+        <button class="btn btn-secondary btn-disagree" (click)="modalRef.hide()">Скасувати</button>
+      </div>
+      </ng-template>

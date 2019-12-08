@@ -3,14 +3,16 @@ using Associations.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Associations.DataAccess.Migrations
 {
     [DbContext(typeof(AssociationsDbContext))]
-    partial class AssociationsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191203150705_DeleteCriteria")]
+    partial class DeleteCriteria
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,13 +44,9 @@ namespace Associations.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasAlternateKey("WordId", "WordRelId")
-                        .HasName("IX_MultipleColumns");
+                    b.HasIndex("WordId");
 
                     b.HasIndex("WordRelId");
-
-                    b.HasIndex("WordId", "WordRelId")
-                        .IsUnique();
 
                     b.ToTable("WordRels");
                 });

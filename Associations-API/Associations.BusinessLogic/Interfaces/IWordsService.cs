@@ -17,6 +17,10 @@ namespace Associations.BusinessLogic.Interfaces
         Task<IEnumerable<WordsDTO>> GetRangeOfEntitiesAsync(PaginationUrlQuery urlQuery = null);
         Task<WordsDTO> CreateEntityAsync(WordRequestModel modelRequest);
         Task<bool> UpdateEntityByIdAsync(WordRequestModel modelRequest, int id);
+        Task<bool> DeleteEntityByIdAsync(int id);
+        Task<IEnumerable<WordsDTO>> GetFilteredEntitiesAsync(
+        string searchingUrlQuery = null,
+        PaginationUrlQuery paginationUrlQuery = null);
         int TotalRecords { get; }
     }
 }

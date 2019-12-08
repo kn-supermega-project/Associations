@@ -9,6 +9,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SelectDropDownModule } from 'ngx-select-dropdown';
 
 import { AppComponent } from './app.component';
 import { GraphComponent } from './graph/graph.component';
@@ -21,6 +22,7 @@ import { ApiService } from './_services/api.service';
 import { RouterModule } from '@angular/router';
 import { appRoutes } from './routes';
 import { WordAddComponent } from './words/WordAdd/WordAdd.component';
+import { AlertifyService } from './_services/alertify.service';
 
 
 @NgModule({
@@ -46,11 +48,13 @@ import { WordAddComponent } from './words/WordAdd/WordAdd.component';
       AngularFontAwesomeModule,
       FormsModule,
       RouterModule.forRoot(appRoutes),
-      ReactiveFormsModule
+      ReactiveFormsModule,
+      SelectDropDownModule
    ],
    providers: [
       ApiService,
-      WordsService
+      WordsService,
+      AlertifyService
    ],
    bootstrap: [
       AppComponent

@@ -1,4 +1,5 @@
-import { WordsToList } from "./WordsToList";
+import { Words } from "./Words";
+
 
 export interface WordRelsToList {
     id: number;
@@ -10,5 +11,5 @@ export interface WordRelsToList {
     malePercents: number;
     femalePercents: number;
     totalPercents: number;
-    relWord: WordsToList;
+    relWord: Words;
 }

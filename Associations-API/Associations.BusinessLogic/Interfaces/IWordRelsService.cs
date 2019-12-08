@@ -12,9 +12,16 @@ namespace Associations.BusinessLogic.Interfaces
     public interface IWordRelsService
     {
         Task<IEnumerable<WordRelsDTO>> GetAllEntitiesAsync();
+        Task<WordRelsToListDTO> GetEntityByIdAsync(int id);
         Task<List<WordRelsToListDTO>> GetEntityByMainWordIdAsync(int id, PaginationUrlQuery paginationUrlQuery = null);
         Task<WordRelsDTO> GetRangeOfEntitiesAsync(PaginationUrlQuery urlQuery = null);
         int TotalRecords { get; }
         Task<WordRelsDTO> CreateEntityAsync(RelRequestModel modelRequest);
+        Task<bool> UpdateEntityByIdAsync(RelRequestModel modelRequest, int id);
+        Task<bool> DeleteEntityByIdAsync(int id);
+        Task<IEnumerable<WordRelsToListDTO>> GetFilteredEntitiesAsync(
+        int id,
+        string searchingUrlQuery = null,
+        PaginationUrlQuery paginationUrlQuery = null);
     }
 }

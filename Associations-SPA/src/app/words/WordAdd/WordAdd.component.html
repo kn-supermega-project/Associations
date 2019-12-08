@@ -42,80 +42,88 @@
           formControlName="addMain"
           type="text"
           placeholder=""
+          required
         />
         <div><b>Виберіть тип слова:</b></div>
-        <select class="custom-select mt-1" formControlName="Type">
+        <select class="custom-select mt-1" formControlName="Type" required>
           <option value="1">Головне</option>
           <option value="2">Асоціація</option>
         </select>
-        <button class="btn btn-dark bt-add" (click)="createMain()">
+        <button class="btn btn-dark bt-add" [disabled]="CreateMainForm.invalid" (click)="createMain()">
           Додати
         </button>
     </form>
   </div>
 </div>
 
+<!-- ADD NEW REL -->
 <div class="rel-word-container" *ngIf="IsAddRel">
   <div class="rel-word-header">
     <h3>
       Додати новий зв'язок
     </h3>
   </div>
-  <form [formGroup]="CreateRelation" novalidate class="main-word-form">
+  <form [formGroup]="CreateRelation" class="rel-word-form">
+    <div class="colum-1">
       <div><b>Виберіть головне слово для якого створюється асоціація:</b></div>
-      <select class="custom-select mt-1" formControlName="MainWord">
-        <option *ngFor="let word of words" value="{{ word.id }}">{{
-          word.word
-        }}</option>
-      </select>
+      <ngx-select-dropdown  [options]="wordNames" [config]="config" class="Words-DD"
+      [(ngModel)] = "selectedMain" [ngModelOptions]="{standalone: true}"   [multiple]="false" name = "m_word_dd"></ngx-select-dropdown>
+      
       <div><b>Виберіть слово-асоціацію:</b></div>
-      <select class="custom-select mt-1" formControlName="RelWord">
-        <option *ngFor="let word of words" value="{{ word.id }}">{{
-          word.word
-        }}</option>
-      </select>
-      <div><b>Введіть кількість чоловічих голосів:</b></div>
+      <ngx-select-dropdown  [options]="wordNames" [config]="config"
+      [(ngModel)] = "selectedRel" [ngModelOptions]="{standalone: true}" [multiple]="false" name = "r_word_dd"></ngx-select-dropdown>
+
+      <div><b>Введіть кількість чоловічих реакцій:</b></div>
       <input
+        required
         class="form-control"
-        type="text"
+        type="number"
         placeholder=""
         formControlName="MPoints"
       />
-      <div><b>Введіть кількість жіночих голосів:</b></div>
+      <div><b>Введіть кількість жіночих реакцій:</b></div>
       <input
+        required
         class="form-control"
-        type="text"
+        type="number"
         placeholder=""
         formControlName="FPoints"
       />
-      <div><b>Введіть кількість загальних голосів:</b></div>
+    </div>
+    <div class="colum-2">
+      <div class="colum-2-row-1"><b>Введіть кількість загальних реакцій:</b></div>
       <input
+        required
         class="form-control"
-        type="text"
+        type="number"
         placeholder=""
         formControlName="TPoints"
       />
-      <div><b>Введіть чоловічі відсотки:</b></div>
+      <div class="colum-2-row-2"><b>Введіть чоловічі відсотки:</b></div>
       <input
+        required
         class="form-control"
-        type="text"
+        type="number"
         placeholder=""
         formControlName="MPer"
       />
-      <div><b>Введіть жіночі відсотки:</b></div>
+      <div class="colum-2-row-3"><b>Введіть жіночі відсотки:</b></div>
       <input
+        required
         class="form-control"
-        type="text"
+        type="number"
         placeholder=""
         formControlName="FPer"
       />
-      <div><b>Введіть загальні відсотки:</b></div>
+      <div class="colum-2-row-4"><b>Введіть загальні відсотки:</b></div>
       <input
+        required
         class="form-control"
-        type="text"
+        type="number"
         placeholder=""
         formControlName="TPer"
       />
-      <button class="btn btn-dark bt-add" (click)="createRel()">Додати</button>
+      <button class="btn btn-dark bt-add" (click)="createRel()" [disabled]="CreateRelation.invalid">Додати</button>
+    </div>
   </form>
 </div>

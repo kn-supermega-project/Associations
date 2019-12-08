@@ -8,14 +8,15 @@
     margin: auto;
 }
 
-.page-link {
-    background-color: #343a40!important;
-}
-.page-item.active .page-link {
+.page-item .page-link {
     z-index: 2;
     color: #fff;
-    background-color: black;
+    background-color: #6c757d;
     border-color:black;
+}
+
+.page-link.active {
+    background-color: black !important;
 }
 
 .sidebar-btn {
@@ -35,4 +36,35 @@
 }
 .sidebar-btn :hover {
     color: rgba(145, 145, 145, 0.90);
+}
+
+.page-link.active {
+    background-color: black !important;
+}
+
+.change-container {
+    width: 350px;
+}
+
+.change-container input {
+    width: 350px;
+}
+
+.btn-agree {
+    width: 100px
+}
+.btn-disagree {
+    width: 100px;
+    margin-left: 5px;
+}
+.right-column {
+    /*padding-left: 150px;*/
+    width: 150px;
+    text-align: right;
+}
+
+.search-box {
+    width: 1176px;
+    margin: auto;
+    margin-top: 10px;
 }

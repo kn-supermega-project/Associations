@@ -1,10 +1,11 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { WordsService } from 'src/app/_services/words.service';
-import { WordsToList } from 'src/app/_interfaces/WordsToList';
 import { PaginationQuery } from 'src/app/_interfaces/PaginationQuery';
 import { Router } from '@angular/router';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { MainWordRequest } from 'src/app/RequestModels/MainWord-request';
+import { Words } from 'src/app/_interfaces/Words';
+import { AlertifyService } from 'src/app/_services/alertify.service';
 
 @Component({
   selector: 'app-words-list',
@@ -13,17 +14,22 @@ import { MainWordRequest } from 'src/app/RequestModels/MainWord-request';
 })
 export class WordsListComponent implements OnInit {
 
-  wordsToList: WordsToList[];
+  wordsToList: Words[];
   pagination: PaginationQuery;
   totalRecords: number[];
   modalRef: BsModalRef;
   newWord: string;
   wordRequest: MainWordRequest;
-  templateEdit: TemplateRef<any>;
+  activeItem = 1;
+  searchString: string;
+
+
+  OldWord: Words;
 
   constructor(private wordsService: WordsService,
     private router: Router,
-    private modalService: BsModalService) {
+    private modalService: BsModalService,
+    private alertify: AlertifyService) {
     this.pagination = this.getDefaultPaginationParam();
     this.totalRecords = [];
    }
@@ -31,7 +37,12 @@ export class WordsListComponent implements OnInit {
   ngOnInit() {
     this.loadWords();
   }
-
+  setDefaultRequest() {
+    this.wordRequest = {
+      Type: 0,
+      Word: ''
+    };
+  }
   getDefaultPaginationParam(): PaginationQuery {
     return {
       pageSize: 10,
@@ -43,12 +54,12 @@ export class WordsListComponent implements OnInit {
       pageNumber: p,
       pageSize: 10
     };
-
+    this.activeItem = p;
     this.loadWords();
   }
 
   loadWords() {
-    this.wordsService.getMainWords(this.pagination.pageSize, this.pagination.pageNumber)
+    this.wordsService.getByFilter(this.searchString, this.pagination.pageSize, this.pagination.pageNumber)
       .subscribe((response) => {
         this.wordsToList = response.body;
         const totalPages = JSON.parse(response.headers.get('X-Pagination')).TotalPages;
@@ -57,23 +68,53 @@ export class WordsListComponent implements OnInit {
         }
       });
   }
+  loadWordById(id: number) {
+    this.wordsService.getById(id)
+    .subscribe((response: Words) => {
+      this.OldWord = response;
+    });
+  }
   details(id: number) {
     this.router.navigate(['words/', id]);
   }
-  openModal(template: TemplateRef<any>) {
+  openModal(template: TemplateRef<any>, id: number) {
+    this.loadWordById(id);
     this.modalRef = this.modalService.show(template);
+    this.setDefaultRequest();
+
   }
-  EditWord(wordId: number, wordType: number) {
-    if (this.newWord) {
-      this.wordRequest.Type = wordType;
+  EditWord() {
+    if (this.newWord && this.OldWord.id) {
       this.wordRequest.Word = this.newWord;
-      this.wordsService.update(wordId, this.wordRequest).
-      subscribe(data => this.loadWords);
-      this.modalRef.hide();
+      this.wordRequest.Type = 1;
+      this.wordsService.update(this.OldWord.id, this.wordRequest)
+      .subscribe(() => {
+        this.modalRef.hide();
+        this.loadWords();
+        this.newWord = '';
+        this.alertify.success('Слово змінено успішно');
+      });
     }
   }
-
-  OpenIdModal(id: number) {
-    this.openModal(this.templateEdit);
+  deleteWord() {
+    if (this.OldWord.id) {
+      this.wordsService.delete(this.OldWord.id)
+      .subscribe(() => {
+        this.modalRef.hide();
+        this.loadWords();
+        this.alertify.message('Слово видалено');
+      },
+      (error) => {
+        this.alertify.error('Не можливо видалити слово, якщо воно є асоціацією іншого. Спочатку видаліть цей зв\'язок');
+      });
+    }
   }
+  setDefaultWordsList() {
+    this.wordsToList = [];
+  }
+
+  search() {
+      this.loadWords();
+  }
+
 }

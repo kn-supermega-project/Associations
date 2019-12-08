@@ -95,5 +95,45 @@ namespace Associations.BusinessLogic.Services
         {
             throw new NotImplementedException();
         }
+        public async Task<bool> DeleteEntityByIdAsync(int id)
+        {
+            await _uow.WordsRepository.DeleteAsync(id);
+
+            var result = await _uow.SaveAsync();
+
+            return result;
+        }
+
+        public async Task<IEnumerable<WordsDTO>> GetFilteredEntitiesAsync(
+        string searchingUrlQuery = null,
+        PaginationUrlQuery paginationUrlQuery = null)
+        {
+            Expression<Func<Words, bool>> filter = e => true;
+
+            if (!string.IsNullOrEmpty(searchingUrlQuery))
+            {
+                filter = filter.And(e => e.Word.Contains(searchingUrlQuery));
+
+                int i;
+                if (!Int32.TryParse(searchingUrlQuery, out i))
+                {
+                    i = -1;
+                }
+                if (i != -1 && i != 0)
+                {
+                    filter = filter.Or(e => e.Id == i);
+                }
+            }
+
+            var entities = await _uow.WordsRepository.GetRangeAsync(
+                include: r => r.Include(o => o.Rels),
+                filter: filter,
+                paginationUrlQuery: paginationUrlQuery);
+
+            var dtos = _mapper.Map<List<Words>, List<WordsDTO>>(entities);
+
+            return dtos;
+        }
+
     }
 }

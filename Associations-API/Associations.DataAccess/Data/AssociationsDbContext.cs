@@ -33,7 +33,12 @@ namespace Associations.DataAccess.Data
                 .HasForeignKey(d => d.WordRelId)
                 .HasConstraintName("FK_RelWords_TO_Words")
                 .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasIndex(p => new { p.WordId, p.WordRelId }).IsUnique();
+
+                entity.HasAlternateKey(c => new { c.WordId, c.WordRelId }).HasName("IX_MultipleColumns");
             });
+           
         }
 
     }

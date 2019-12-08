@@ -22,11 +22,13 @@
     "@angular/router": "^6.1.0",
     "@swimlane/ngx-charts": "^10.1.0",
     "@swimlane/ngx-graph": "^5.5.0",
+    "alertifyjs": "^1.13.1",
     "angular-font-awesome": "^3.1.2",
     "core-js": "^2.5.4",
     "d3": "^5.9.2",
     "font-awesome": "^4.7.0",
     "ngx-bootstrap": "^3.2.0",
+    "ngx-select-dropdown": "^1.2.1",
     "ngx-tooltip": "0.0.9",
     "rxjs": "~6.2.0",
     "zone.js": "~0.8.26"

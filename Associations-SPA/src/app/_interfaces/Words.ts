@@ -1,7 +1,9 @@
-import { WordsRel } from "./WordsRel";
+
+import { WordRelsToList } from "./WordRelsToList";
 
 export interface Words {
     id: number;
     word: string;
-    rels: WordsRel[];
+    type: number;
+    rels: WordRelsToList[];
 }
