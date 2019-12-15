@@ -75,7 +75,7 @@ export class WordsListComponent implements OnInit {
     });
   }
   details(id: number) {
-    this.router.navigate(['words/', id]);
+    this.router.navigate(['word-details/', id]);
   }
   openModal(template: TemplateRef<any>, id: number) {
     this.loadWordById(id);

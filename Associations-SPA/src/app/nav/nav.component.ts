@@ -19,7 +19,7 @@ export class NavComponent implements OnInit {
     this.router.navigate(['']);
   }
   goToWords() {
-    this.router.navigate(['words']);
+    this.router.navigate(['words-list']);
   }
   goToWordAdd() {
     this.router.navigate(['wordadd']);

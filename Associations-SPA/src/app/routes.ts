@@ -9,8 +9,8 @@ export const appRoutes: Routes = [
   {
     path: '',
     children: [
-      {path: 'words', component: WordsListComponent},
-      {path: 'words/:id', component: WordsDetailsComponent},
+      {path: 'words-list', component: WordsListComponent},
+      {path: 'word-details/:id', component: WordsDetailsComponent},
       {path: 'wordadd', component: WordAddComponent}
     ]
   },
